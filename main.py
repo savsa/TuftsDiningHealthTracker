@@ -7,7 +7,6 @@ import os
 import time
 import logging
 
-import praw
 import config
 
 from google.appengine.ext import deferred
@@ -15,7 +14,6 @@ from google.appengine.ext import ndb
 
 import requests_toolbelt.adapters.appengine
 requests_toolbelt.adapters.appengine.monkeypatch()
-
 
 env = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),

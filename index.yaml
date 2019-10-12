@@ -14,3 +14,9 @@ indexes:
   properties:
   - name: meal_period
   - name: calories
+
+- kind: MenuItem
+  properties:
+  - name: name
+  - name: meal_period
+  - name: calories

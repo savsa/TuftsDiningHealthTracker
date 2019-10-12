@@ -1,21 +1,23 @@
 form {
 	width: 30%;
 	padding: 10px;
+	float: left;
 }
- 
+
 .btn-custom{
 	padding: 10px;
 }
 
 img {
 	padding: 10px;
+	float:right;
 }
 
 .jumbotron {
   margin-bottom: 25px;
   height: 250px;
   color: white;
-  text-shadow: black 0.3em 0.3em 0.3em;
+  text-shadow: #08B6CD 0.3em 0.3em 0.3em;
   background: #80ceff url('../images/LogoMakr_0wFECn.png') no-repeat 65% 50%;
   background-size: 175px;
   padding-top: 75px;
@@ -26,7 +28,7 @@ img {
 large {
   padding-right: 10px;
 }
-
+/*
 #elephant {
   float : right;
-}
+} */

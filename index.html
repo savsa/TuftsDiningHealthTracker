@@ -102,24 +102,28 @@
     <input type="input" class="form-control" name="calory" placeholder="Enter number">
     <large id="emailHelp" class="form-text text-muted">Average recommended: 2,000 kcal</large>
   </div>
-  <button type="button" class="btn btn-primary" onclick="add_meal()">Add meal</button>
+  <div class="meal-group"></div>
+  <button type="button" class="btn btn-primary btn-custom" onclick="add_meal()">Add meal</button>
+  <button type="submit" class="btn btn-primary btn-custom">Submit</button>
 </form>
+
 
 <img id = "elephant" src="images/elephant_eating.jpg" >
 
 <script>
 function add_meal() {
   var meal = document.createElement("div");
+  meal.class = "form-group";
   var time_label = document.createElement("label");
   var time_input = document.createElement("input");
   time_input.name = "time";
-  time_input.placeholder = "MM/DD";
+  time_input.placeholder = "hh:mm (24-hr format)";
   time_input.class = "form-control";
   //<input type="input" class="form-control" name="calory" placeholder="Enter number"-->
   time_label.innerText = "Time: "
   meal.appendChild(time_label);
-  document.body.appendChild(meal);
-  document.body.appendChild(time_input);
+  meal.appendChild(time_input);
+  document.querySelector(".meal-group").appendChild(meal);
 }
 </script>
 <script

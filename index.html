@@ -46,6 +46,7 @@
   </div>
 
 <form>
+  <!--
   <div class="form-group">
     <label for="exampleInputEmail1">Email address</label>
     <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
@@ -59,10 +60,34 @@
     <input type="checkbox" class="form-check-input" id="exampleCheck1">
     <label class="form-check-label" for="exampleCheck1">Check me out</label>
   </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
+-->
+  <div class="form-group">
+    <label for="exampleCheck1">Dietary Restrictions:</label>
+    <div>
+      <input type="checkbox" class="form-check-input" id="exampleCheck1">
+      <small id="vegan" class="form-text text-muted">Vegan</small>
+      <input type="checkbox" class="form-check-input" id="exampleCheck1">
+      <small id="vegitarian" class="form-text text-muted">Vegitarian</small>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="exampleCheck1">Allergies</label>
+    <div>
+      <input type="checkbox" class="form-check-input" id="exampleCheck1">
+      <small id="peanut-allergy" class="form-text text-muted">Peanuts</small>
+      <input type="checkbox" class="form-check-input" id="exampleCheck1">
+      <small id="gluten" class="form-text text-muted">Gluten</small>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="exampleInputEmail1">Daily Calories</label>
+    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter number">
+    <small id="emailHelp" class="form-text text-muted">Average recommended: 2,000 kcal</small>
+  </div>
+  <button type="submit" class="btn btn-primary">Add meal</button>
 </form>
 
-<img src="images/elephant_eating.jpg">
+<img src="images/elephant_eating.jpg" width="200px">
 
 <script
   src="https://code.jquery.com/jquery-3.4.1.min.js"

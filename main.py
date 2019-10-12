@@ -10,6 +10,7 @@ import logging
 import config
 import datetime
 import string
+import random
 
 from google.appengine.ext import deferred
 from google.appengine.ext import ndb
@@ -21,6 +22,66 @@ env = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
     extensions=['jinja2.ext.autoescape'],
     autoescape=True)
+
+dining_options = [
+    'dewick',
+    'carm',
+    # 'commons',
+    # 'paxetlox',
+    # 'brownandbrew',
+    # 'hodgdon',
+    # 'mugar',
+    # 'tower',
+]
+meal_periods = [
+    'Breakfast',
+    'Lunch',
+    'Dinner'
+]
+
+breakfast_meal_types = [
+    'BREAKFAST DAIRY & FRUIT BAR',
+    'BRK BREADS,PASTRIES & TOPPINGS',
+    'BREAKFAST POTATO',
+    'HOT BREAKFAST CEREAL BAR',
+    'BREAKFAST MEATS',
+    'BREAKFAST ENTREE',
+]
+
+lunch_meal_types = [
+    'PIZZA'
+    'SALAD BAR DAIRY & FRUIT',
+    'LUNCH ENTREE',
+    'VEGETARIAN OPTIONS',
+    'PASTA & SAUCES',
+    'SPECIALTY SALADS',
+    'FRESH BAKED DESSERTS',
+    'POTATO & RICE ACCOMPANIMENTS',
+    'BREAKFAST ENTREE',
+    'DELI & PANINI',
+    'BREADS & ROLLS',
+    'Hearty Soups',
+    'BREAKFAST MEATS',
+    'SAUCES,GRAVIES & TOPPINGS',
+    'CHAR-GRILL STATIONS',
+    'VEGETABLES',
+]
+
+dinner_meal_types = [
+    'PIZZA',
+    'DINNER ENTREES',
+    'VEGETARIAN OPTIONS',
+    'PASTA & SAUCES',
+    'SPECIALTY SALADS',
+    'SALAD BAR DAIRY & FRUIT',
+    'POTATO & RICE ACCOMPANIMENTS',
+    'CHAR-GRILL STATIONS',
+    'VEGETABLES',
+    'Hearty Soups',
+    'NOODLERY & STIR FRY',
+    'FRESH BAKED DESSERTS',
+    'DELI & PANINI',
+]
 
 class MenuItem(ndb.Model):
     name = ndb.StringProperty()
@@ -36,71 +97,13 @@ class PopulateDatabase(webapp2.RequestHandler):
     def get(self):
         # /hall/day/month/year
         date = datetime.datetime.now()
-        dining_options = [
-            'dewick',
-            'carm',
-            # 'commons',
-            # 'paxetlox',
-            # 'brownandbrew',
-            # 'hodgdon',
-            # 'mugar',
-            # 'tower',
-        ]
-        meal_periods = [
-            'Breakfast',
-            'Lunch',
-            'Dinner'
-        ]
 
-        breakfast_meal_types = [
-            'BREAKFAST DAIRY & FRUIT BAR',
-            'BRK BREADS,PASTRIES & TOPPINGS',
-            'BREAKFAST POTATO',
-            'HOT BREAKFAST CEREAL BAR',
-            'BREAKFAST MEATS',
-            'BREAKFAST ENTREE',
-        ]
-
-        lunch_meal_types = [
-            'PIZZA'
-            'SALAD BAR DAIRY & FRUIT',
-            'LUNCH ENTREE',
-            'VEGETARIAN OPTIONS',
-            'PASTA & SAUCES',
-            'SPECIALTY SALADS',
-            'FRESH BAKED DESSERTS',
-            'POTATO & RICE ACCOMPANIMENTS',
-            'BREAKFAST ENTREE',
-            'DELI & PANINI',
-            'BREADS & ROLLS',
-            'Hearty Soups',
-            'BREAKFAST MEATS',
-            'SAUCES,GRAVIES & TOPPINGS',
-            'CHAR-GRILL STATIONS',
-            'VEGETABLES',
-        ]
-
-        dinner_meal_types = [
-            'PIZZA',
-            'DINNER ENTREES',
-            'VEGETARIAN OPTIONS',
-            'PASTA & SAUCES',
-            'SPECIALTY SALADS',
-            'SALAD BAR DAIRY & FRUIT',
-            'POTATO & RICE ACCOMPANIMENTS',
-            'CHAR-GRILL STATIONS',
-            'VEGETABLES',
-            'Hearty Soups',
-            'NOODLERY & STIR FRY',
-            'FRESH BAKED DESSERTS',
-            'DELI & PANINI',
-        ]
 
         ## get all the different foods from the menus
         foods = []
         for dining_option in dining_options:
             print(dining_option.upper())
-            menu_endpoint = 'https://tuftsdiningdata.herokuapp.com/menus/{}/{}/{}/{}'.format(dining_option, date.day, date.month, date.year)
+            menu_endpoint = 'https://tuftsdiningdata.herokuapp.com/rmenus/{}/{}/{}/{}'.format(dining_option, date.day, date.month, date.year)
             menu = requests.get(menu_endpoint)
             menu_json = menu.json()
             menu_data = menu_json['data']
@@ -173,11 +176,72 @@ class PopulateDatabase(webapp2.RequestHandler):
 
 class Home(webapp2.RequestHandler):
     def get(self):
+
         template = env.get_template('index.html')
         self.response.write(template.render())
+
+class Results(webapp2.RequestHandler):
+    def get(self):
+        calories = self.request.get('calories')
+        calories = int(calories)
+        # num_meals = self.request.get('meals')
+        num_meals = 3
+
+        calories_per_meal = calories / num_meals
+        foods = MenuItem.query()
+
+        # Breakfast
+        breakfast_cals_left = calories_per_meal
+        recommended_breakfast = []
+        while breakfast_cals_left > 0:
+            breakfast = MenuItem.query().filter(MenuItem.meal_period == 'breakfast',
+                                                MenuItem.calories <= (breakfast_cals_left))
+            for food in breakfast:
+                if (food.calories > 80):
+                    recommended_breakfast.append(food.name)
+                    breakfast_cals_left = breakfast_cals_left - food.calories
+                if breakfast_cals_left < 0:
+                    break
+        # Lunch
+        lunch_cals_left = calories_per_meal
+        recommended_lunch = []
+        while lunch_cals_left > 50:
+            lunch = MenuItem.query().filter(MenuItem.meal_period == 'lunch',
+                                                MenuItem.calories <= (lunch_cals_left))
+            for food in lunch:
+                if (food.calories > 150):
+                    recommended_lunch.append(food.name)
+                    lunch_cals_left = lunch_cals_left - food.calories
+                    print(food.calories)
+                    print(lunch_cals_left)
+                    if lunch_cals_left < 0:
+                        break
+
+        # Dinner
+        dinner_cals_left = calories_per_meal
+        recommended_dinner = []
+        while dinner_cals_left > 50:
+            dinner = MenuItem.query().filter(MenuItem.meal_period == 'dinner',
+                                                MenuItem.calories <= (dinner_cals_left))
+            for food in dinner:
+                if (food.calories > 150):
+                    recommended_dinner.append(food.name)
+                    dinner_cals_left = dinner_cals_left - food.calories
+                if dinner_cals_left < 0:
+                    break
+
+        template_vars = {
+            "recommended_breakfast" : recommended_breakfast,
+            "recommended_lunch" : recommended_lunch,
+            "recommended_dinner" : recommended_dinner,
+        }
+
+        template = env.get_template('results.html')
+        self.response.write(template.render(template_vars))
 
 
 app = webapp2.WSGIApplication([
     ('/', Home),
     ('/populate', PopulateDatabase),
+    ('/results', Results),
 ], debug=True)

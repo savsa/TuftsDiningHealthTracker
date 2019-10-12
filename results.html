@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tuftstinence</title>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+
+  <link rel="icon" href="images/icon_banana.png">
+
+</head>
+<body>
+    <h2>Breakfast</h2>
+    {% for item in recommended_breakfast %}
+        <p>{{item}}</p>
+    {% endfor %}
+    <h2>Lunch</h2>
+    {% for item in recommended_lunch %}
+        <p>{{item}}</p>
+    {% endfor %}
+    <h2>Dinner</h2>
+    {% for item in recommended_dinner %}
+        <p>{{item}}</p>
+    {% endfor %}
+</body>

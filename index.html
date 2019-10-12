@@ -102,11 +102,20 @@
     <input type="input" class="form-control" name="calory" placeholder="Enter number">
     <large id="emailHelp" class="form-text text-muted">Average recommended: 2,000 kcal</large>
   </div>
-  <button type="submit" class="btn btn-primary">Add meal</button>
+  <button type="button" class="btn btn-primary" onclick="add_meal()">Add meal</button>
 </form>
 
 <img src="images/elephant_eating.jpg" width="200px">
 
+<script>
+function add_meal() {
+  var meal = document.createElement("div");
+  var time_label = document.createElement("label");
+  time_label.innerText = "Time: "
+  meal.appendChild(time_label);
+  document.body.appendChild(meal);
+}
+</script>
 <script
   src="https://code.jquery.com/jquery-3.4.1.min.js"
   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="

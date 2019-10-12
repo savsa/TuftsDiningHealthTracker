@@ -12,11 +12,14 @@ img {
 }
 
 .jumbotron {
-  margin-bottom: 0px;
-  height: 350px;
+  margin-bottom: 25px;
+  height: 250px;
   color: white;
   text-shadow: black 0.3em 0.3em 0.3em;
-  background: url('https://i.pinimg.com/originals/c0/e8/6f/c0e86f8cfdc66c3e3d8393fd3a6b60af.jpg') no-repeat center center;
+  background: #80ceff url('../images/LogoMakr_0wFECn.png') no-repeat 65% 50%;
+  background-size: 175px;
+  padding-top: 75px;
+  padding-right: 200px;
   /*background:transparent;*/
 }
 

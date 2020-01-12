@@ -5,4 +5,3 @@
 # Thomas Felt
 # Savion Sample
 # Bryce Victor
-# Jack Chau pushing
